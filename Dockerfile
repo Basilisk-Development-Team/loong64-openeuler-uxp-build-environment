@@ -1,14 +1,14 @@
 # This is only intended to be ran on Loongarch64.
 # It may or may not work on x86_64/aarch64.
 # Users on those architectures are recommended to use our Oracle Linux 8 container instead.
-from openeuler/openeuler:24.03-lts-sp3
+FROM loongarch64/openeuler:24.03-LTS
 
 # Hard code LLVM version so we can update with just one line edit.
 # OpenEuler provides LLVM 20 packages but they are broken break so we just stick with LLVM 19 here.
 ENV LLVM_VERSION=19
 
-# Switch to a faster US-based mirror
-RUN sed -i 's/repo\.openeuler\.org/mirrors\.ocf\.berkeley\.edu\/openeuler/g' /etc/yum.repos.d/openEuler.repo
+# Switch to a faster US-based mirror. Also make sure we're running the latest SP for the OS.
+RUN sed -i 's/repo\.openeuler\.org\/openEuler-24\.03-LTS/mirrors\.ocf\.berkeley\.edu\/openeuler\/openEuler-24\.03-LTS-SP3/g' /etc/yum.repos.d/openEuler.repo
 RUN dnf upgrade -y
 
 # Install build dependencies (some of these might not be needed)
